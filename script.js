@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const startGuideBtn = document.getElementById('start-guide-btn');
     const openSearchBtn = document.getElementById('open-search-btn');
     const openRulesBtn = document.getElementById('open-rules-btn');
-    const openPunctuationToolBtn = document.getElementById('open-punctuation-tool-btn'); // New button
+    const openPunctuationToolBtn = document.getElementById('open-punctuation-tool-btn');
+    const openReadmeBtn = document.getElementById('open-readme-btn'); // Nuovo pulsante README
 
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
@@ -25,11 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingIndicator = document.getElementById('loading-indicator');
     const errorMessage = document.getElementById('error-message');
 
-    const punctuationToolModal = document.getElementById('punctuation-tool-modal'); // New modal
-    const closePunctuationToolModalBtn = document.getElementById('close-punctuation-tool-modal-btn'); // New close button
-    const inputTextarea = document.getElementById('inputText'); // Textarea for punctuation tool
-    const processTextBtn = document.getElementById('process-text-btn'); // Process button for punctuation tool
-    const outputTextPre = document.getElementById('outputText'); // Output for punctuation tool
+    const punctuationToolModal = document.getElementById('punctuation-tool-modal');
+    const closePunctuationToolModalBtn = document.getElementById('close-punctuation-tool-modal-btn');
+    const inputTextarea = document.getElementById('inputText');
+    const processTextBtn = document.getElementById('process-text-btn');
+    const outputTextPre = document.getElementById('outputText');
+
+    const readmeModal = document.getElementById('readme-modal'); // Nuovo modale README
+    const closeReadmeModalBtn = document.getElementById('close-readme-modal-btn'); // Bottone chiudi README
+    const readmeContentDiv = document.getElementById('readme-content'); // Contenuto README
 
     const progressBar = document.getElementById('progress-bar');
     const currentStepLabel = document.getElementById('current-step-label');
@@ -39,23 +44,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToHomeFromStepperBtn = document.getElementById('back-to-home-from-stepper');
     const backToHomeFromRulesBtn = document.getElementById('back-to-home-from-rules');
     const backToHomeFromSearchBtn = document.getElementById('back-to-home-from-search');
-    const backToHomeFromPunctuationToolBtn = document.getElementById('back-to-home-from-punctuation-tool'); // New back to home button
+    const backToHomeFromPunctuationToolBtn = document.getElementById('back-to-home-from-punctuation-tool');
+    const backToHomeFromReadmeBtn = document.getElementById('back-to-home-from-readme'); // Nuovo bottone per README
 
-    let allRecipientsData = []; // To store the parsed data from Google Sheet
+    let allRecipientsData = [];
 
-    // Function to show a specific section and hide others
+    // Funzione per mostrare una sezione e nasconderne altre
     function showSection(sectionId) {
         homeScreen.classList.add('hidden');
         stepperSection.classList.add('hidden');
         rulesModal.classList.add('hidden');
         searchModal.classList.add('hidden');
-        punctuationToolModal.classList.add('hidden'); // Hide new modal
+        punctuationToolModal.classList.add('hidden');
+        readmeModal.classList.add('hidden'); // Nascondi il nuovo modale
 
         if (sectionId === 'home-screen') {
             homeScreen.classList.remove('hidden');
         } else if (sectionId === 'stepper-section') {
             stepperSection.classList.remove('hidden');
-            updateView(); // Ensure stepper starts from current step
+            updateView();
         } else if (sectionId === 'rules-modal') {
             rulesModal.classList.remove('hidden');
             setTimeout(() => {
@@ -68,12 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 searchModal.classList.remove('opacity-0');
                 searchModal.querySelector('.modal-content').classList.remove('scale-95');
             }, 10);
-        } else if (sectionId === 'punctuation-tool-modal') { // Show new modal
+        } else if (sectionId === 'punctuation-tool-modal') {
             punctuationToolModal.classList.remove('hidden');
             setTimeout(() => {
                 punctuationToolModal.classList.remove('opacity-0');
                 punctuationToolModal.querySelector('.modal-content').classList.remove('scale-95');
             }, 10);
+        } else if (sectionId === 'readme-modal') { // Mostra il nuovo modale README
+            readmeModal.classList.remove('hidden');
+            setTimeout(() => {
+                readmeModal.classList.remove('opacity-0');
+                readmeModal.querySelector('.modal-content').classList.remove('scale-95');
+            }, 10);
+            loadReadmeContent(); // Carica il contenuto del README
         }
     }
 
@@ -100,18 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
         currentStepLabel.innerText = currentStep;
     }
 
-    // Function to parse CSV text into an array of objects
+    // Funzione per parsare CSV (invariata)
     function parseCSV(text) {
         const lines = text.split('\n').filter(line => line.trim() !== '');
         if (lines.length === 0) return [];
 
-        // Use the first line as headers
         const headers = lines[0].split(',').map(header => header.trim());
         const data = [];
 
         for (let i = 1; i < lines.length; i++) {
             const values = lines[i].split(',').map(value => value.trim());
-            if (values.length === headers.length) { // Ensure row has correct number of columns
+            if (values.length === headers.length) {
                 let row = {};
                 headers.forEach((header, index) => {
                     row[header] = values[index];
@@ -122,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return data;
     }
 
-    // Function to fetch and load data from Google Sheet CSV URL
+    // Funzione per caricare dati da Google Sheet CSV (invariata)
     async function fetchAndLoadRecipients() {
         const csvUrl = googleSheetCsvUrlInput.value.trim();
         if (!csvUrl) {
@@ -138,17 +151,16 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(csvUrl);
             if (!response.ok) {
-                // Log full response for debugging HTTP errors
                 console.error('HTTP Error Response:', response);
                 throw new Error(`Errore HTTP! Stato: ${response.status} ${response.statusText}`);
             }
             const csvText = await response.text();
-            console.log('Fetched CSV text (first 200 chars):', csvText.substring(0, 200)); // Log part of text
+            console.log('Fetched CSV text (first 200 chars):', csvText.substring(0, 200));
             allRecipientsData = parseCSV(csvText);
-            console.log('Parsed data:', allRecipientsData); // Log parsed data
-            filterRecipients(); // Render all data initially after loading
+            console.log('Parsed data:', allRecipientsData);
+            filterRecipients();
         } catch (error) {
-            console.error('Detailed error during fetch or parse:', error); // Log the full error object
+            console.error('Detailed error during fetch or parse:', error);
             errorMessage.innerText = `Errore nel caricamento del foglio. Controlla il link e le impostazioni di condivisione (CORS). Dettagli: ${error.message}`;
             errorMessage.classList.remove('hidden');
             recipientsResultsDiv.innerHTML = '<p class="text-red-500 text-center py-4">Impossibile caricare i dati.</p>';
@@ -157,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to render recipients data into a table
+    // Funzione per renderizzare i destinatari (invariata)
     function renderRecipients(data) {
-        console.log('renderRecipients called with data:', data); // Added log
-        recipientsResultsDiv.innerHTML = ''; // Clear previous results
+        console.log('renderRecipients called with data:', data);
+        recipientsResultsDiv.innerHTML = '';
         if (data.length === 0) {
             recipientsResultsDiv.innerHTML = '<p class="text-slate-500 text-center py-4">Nessun destinatario trovato.</p>';
             return;
@@ -169,12 +181,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const table = document.createElement('table');
         table.classList.add('min-w-full', 'divide-y', 'divide-slate-200', 'rounded-lg', 'overflow-hidden');
         
-        // Create table header
         const thead = document.createElement('thead');
-        // Added sticky header classes: sticky, top-0, z-10, shadow-sm, border-b, border-slate-200
         thead.classList.add('bg-slate-100', 'sticky', 'top-0', 'z-10', 'shadow-sm', 'border-b', 'border-slate-200');
         const headerRow = document.createElement('tr');
-        const headers = Object.keys(data[0]); // Get headers from the first data row
+        const headers = Object.keys(data[0]);
         headers.forEach(headerText => {
             const th = document.createElement('th');
             th.classList.add('px-6', 'py-3', 'text-left', 'text-xs', 'font-medium', 'text-slate-500', 'uppercase', 'tracking-wider');
@@ -184,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
-        // Create table body
         const tbody = document.createElement('tbody');
         tbody.classList.add('bg-white', 'divide-y', 'divide-slate-200');
         data.forEach(rowData => {
@@ -192,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers.forEach(header => {
                 const td = document.createElement('td');
                 td.classList.add('px-6', 'py-4', 'whitespace-nowrap', 'text-sm', 'text-slate-700');
-                td.innerText = rowData[header] || ''; // Display value or empty string
+                td.innerText = rowData[header] || '';
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
@@ -201,11 +210,10 @@ document.addEventListener('DOMContentLoaded', () => {
         recipientsResultsDiv.appendChild(table);
     }
 
-    // Function to filter recipients based on search input
+    // Funzione per filtrare i destinatari (invariata)
     function filterRecipients() {
         const searchTerm = recipientSearchInput.value.toLowerCase();
         const filteredData = allRecipientsData.filter(recipient => {
-            // Search across all string values in the recipient object
             return Object.values(recipient).some(value => 
                 String(value).toLowerCase().includes(searchTerm)
             );
@@ -213,32 +221,71 @@ document.addEventListener('DOMContentLoaded', () => {
         renderRecipients(filteredData);
     }
 
-    // Punctuation Tool Logic
+    // Logica per il Tool Rimozione Punteggiatura (invariata)
     function processText() {
         let text = inputTextarea.value;
-
-        // Convertire date gg.mm.aaaa in gg/mm/aaaa
         text = text.replace(/\b(\d{2})\.(\d{2})\.(\d{4})\b/g, "$1/$2/$3");
-
-        // Sostituire . seguito da spazi + lettera maiuscola e preceduto da minuscola o numero → " - "
         text = text.replace(/(?<=[a-z0-9])\.\s*(?=[A-Z])/g, " - ");
-
-        // Sostituire . seguito da numero e preceduto da minuscola o numero → spazio
         text = text.replace(/(?<=[a-z0-9])\.(?=\d)/g, " ");
-
-        // Sostituire — con " - "
         text = text.replace(/—/g, " - ");
-
-        // Protezione orari hh:mm
         text = text.replace(/\b(\d{1,2}):(\d{2})\b/g, "@@$1:@@$2");
-
-        // Rimuovere tutta la punteggiatura tranne ' / \ | ’ -
         text = text.replace(/[^\w\s'/\\|’:-]/g, "");
-
-        // Ripristino orari
         text = text.replace(/@@(\d{1,2}):@@(\d{2})/g, "$1:$2");
-
         outputTextPre.innerText = text;
+    }
+
+    // Funzione per caricare il contenuto del README.md e convertirlo
+    async function loadReadmeContent() {
+        readmeContentDiv.innerHTML = 'Caricamento del README...'; // Messaggio di caricamento
+        try {
+            const response = await fetch('README.md'); // Assumiamo che README.md sia nella stessa directory
+            if (!response.ok) {
+                throw new Error(`Impossibile caricare README.md: ${response.status} ${response.statusText}`);
+            }
+            const markdownText = await response.text();
+            
+            // Per convertire Markdown in HTML, abbiamo bisogno di una libreria.
+            // In questo esempio, useremo un approccio molto basilare per la demo.
+            // In un'applicazione reale, useresti una libreria come 'marked.js' o 'showdown.js'.
+            // Per ora, convertiamo i titoli e liste in modo semplice per dimostrare la funzionalità.
+
+            let htmlContent = markdownText
+                .replace(/^#\s(.+)$/gm, '<h1>$1</h1>') // H1
+                .replace(/^##\s(.+)$/gm, '<h2>$1</h2>') // H2
+                .replace(/^###\s(.+)$/gm, '<h3>$1</h3>') // H3
+                .replace(/^- (.+)$/gm, '<li>$1</li>') // List items
+                .replace(/^\* (.+)$/gm, '<li>$1</li>'); // List items (alternative)
+
+            // Avvolgi le liste in <ul>
+            htmlContent = htmlContent.replace(/(<li>.*?<\/li>(\s*))+/gs, '<ul>$0</ul>');
+
+            // Converti le righe non vuote che non sono già tag HTML in paragrafi
+            htmlContent = htmlContent.split('\n').map(line => {
+                if (line.trim() === '' || line.match(/<h[1-6]>|<li|<ul|<ol|<pre>|<div/i)) {
+                    return line;
+                }
+                return `<p>${line}</p>`;
+            }).join('\n');
+
+            // Rimuovi eventuali <p> vuoti o indesiderati dopo la conversione dei titoli
+            htmlContent = htmlContent.replace(/<p>\s*<\/?h[1-6].*?>\s*<\/p>/g, '');
+            htmlContent = htmlContent.replace(/<p><ul>/g, '<ul>'); // Evita <p> intorno a <ul>
+            htmlContent = htmlContent.replace(/<\/ul><\/p>/g, '</ul>'); // Evita </p> intorno a </ul>
+
+            // Puoi anche aggiungere la gestione per <strong>, <em>, `code`, `pre` ecc.
+            htmlContent = htmlContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Bold
+            htmlContent = htmlContent.replace(/\*(.*?)\*/g, '<em>$1</em>');     // Italic
+
+            // Pulizia di spazi extra o righe vuote
+            htmlContent = htmlContent.replace(/(\n\s*){2,}/g, '\n\n');
+
+
+            readmeContentDiv.innerHTML = htmlContent;
+
+        } catch (error) {
+            console.error('Errore nel caricamento o parsing del README:', error);
+            readmeContentDiv.innerHTML = `<p class="text-red-500">Errore nel caricamento della guida completa: ${error.message}</p>`;
+        }
     }
 
     // Event Listeners for main navigation buttons
@@ -260,24 +307,27 @@ document.addEventListener('DOMContentLoaded', () => {
     startGuideBtn.addEventListener('click', () => showSection('stepper-section'));
     openSearchBtn.addEventListener('click', () => showSection('search-recipients-modal'));
     openRulesBtn.addEventListener('click', () => showSection('rules-modal'));
-    openPunctuationToolBtn.addEventListener('click', () => showSection('punctuation-tool-modal')); // New button listener
+    openPunctuationToolBtn.addEventListener('click', () => showSection('punctuation-tool-modal'));
+    openReadmeBtn.addEventListener('click', () => showSection('readme-modal')); // Listener per il nuovo pulsante
 
-    // Back to Home buttons
+    // Back to Home buttons (esistenti)
     backToHomeFromStepperBtn.addEventListener('click', () => {
-        currentStep = 1; // Reset stepper to first step
+        currentStep = 1;
         showSection('home-screen');
     });
-    backToHomeFromRulesBtn.addEventListener('click', () => closeRulesModal() || showSection('home-screen'));
-    backToHomeFromSearchBtn.addEventListener('click', () => closeSearchModal() || showSection('home-screen'));
-    backToHomeFromPunctuationToolBtn.addEventListener('click', () => closePunctuationToolModal() || showSection('home-screen')); // New back to home listener
+    // Modifiche: i pulsanti di chiusura 'X' dei modali e i pulsanti "Torna alla Home" ora chiamano showSection('home-screen')
+    backToHomeFromRulesBtn.addEventListener('click', () => showSection('home-screen'));
+    backToHomeFromSearchBtn.addEventListener('click', () => showSection('home-screen'));
+    backToHomeFromPunctuationToolBtn.addEventListener('click', () => showSection('home-screen'));
+    backToHomeFromReadmeBtn.addEventListener('click', () => showSection('home-screen')); // Listener per il nuovo bottone del README
 
-
-    // Functions to close modals
+    // Funzioni per chiudere i modali e tornare alla home
     function closeRulesModal() {
         rulesModal.classList.add('opacity-0');
         rulesModal.querySelector('.modal-content').classList.add('scale-95');
         setTimeout(() => {
             rulesModal.classList.add('hidden');
+            showSection('home-screen'); // Torna alla home
         }, 300);
     }
 
@@ -286,26 +336,35 @@ document.addEventListener('DOMContentLoaded', () => {
         searchModal.querySelector('.modal-content').classList.add('scale-95');
         setTimeout(() => {
             searchModal.classList.add('hidden');
-            // Clear search input and results when closing
             recipientSearchInput.value = '';
             recipientsResultsDiv.innerHTML = '<p class="text-slate-500 text-center py-4">Carica il foglio per iniziare la ricerca.</p>';
-            allRecipientsData = []; // Clear data
-            // googleSheetCsvUrlInput.value = ''; // Do not clear URL input
+            allRecipientsData = [];
             errorMessage.classList.add('hidden');
+            showSection('home-screen'); // Torna alla home
         }, 300);
     }
 
-    function closePunctuationToolModal() { // New close function
+    function closePunctuationToolModal() {
         punctuationToolModal.classList.add('opacity-0');
         punctuationToolModal.querySelector('.modal-content').classList.add('scale-95');
         setTimeout(() => {
             punctuationToolModal.classList.add('hidden');
-            inputTextarea.value = ''; // Clear input
-            outputTextPre.innerText = ''; // Clear output
+            inputTextarea.value = '';
+            outputTextPre.innerText = '';
+            showSection('home-screen'); // Torna alla home
         }, 300);
     }
 
-    // Event Listeners for closing modals
+    function closeReadmeModal() { // Nuova funzione di chiusura per il README
+        readmeModal.classList.add('opacity-0');
+        readmeModal.querySelector('.modal-content').classList.add('scale-95');
+        setTimeout(() => {
+            readmeModal.classList.add('hidden');
+            showSection('home-screen'); // Torna alla home
+        }, 300);
+    }
+
+    // Event Listeners per la chiusura dei modali con la "X"
     closeRulesModalBtn.addEventListener('click', closeRulesModal);
     rulesModal.addEventListener('click', (event) => {
         if (event.target === rulesModal) {
@@ -320,19 +379,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    closePunctuationToolModalBtn.addEventListener('click', closePunctuationToolModal); // New close listener
-    punctuationToolModal.addEventListener('click', (event) => { // New modal click listener
+    closePunctuationToolModalBtn.addEventListener('click', closePunctuationToolModal);
+    punctuationToolModal.addEventListener('click', (event) => {
         if (event.target === punctuationToolModal) {
             closePunctuationToolModal();
         }
     });
 
-    // Event Listeners for search modal functionality
+    closeReadmeModalBtn.addEventListener('click', closeReadmeModal); // Listener per la X del README
+    readmeModal.addEventListener('click', (event) => { // Click sull'overlay del README
+        if (event.target === readmeModal) {
+            closeReadmeModal();
+        }
+    });
+
+    // Event Listeners per la funzionalità di ricerca (invariati)
     loadSheetBtn.addEventListener('click', fetchAndLoadRecipients);
     recipientSearchInput.addEventListener('input', filterRecipients);
 
-    // Event Listener for punctuation tool functionality
-    processTextBtn.addEventListener('click', processText); // New process button listener
+    // Event Listener per la funzionalità del tool di punteggiatura (invariati)
+    processTextBtn.addEventListener('click', processText);
 
     // Initial view: show home screen
     showSection('home-screen');
