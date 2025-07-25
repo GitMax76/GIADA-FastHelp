@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>GIADA SUPPORT</title>
-  <link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -47,6 +37,9 @@
                 </button>
                 <button id="open-punctuation-tool-btn" class="bg-purple-600 text-white font-semibold py-4 px-6 rounded-lg hover:bg-purple-700 transition-colors text-lg shadow-md">
                     Tool Rimozione Punteggiatura
+                </button>
+                <button id="open-readme-btn" class="bg-indigo-500 text-white font-semibold py-4 px-6 rounded-lg hover:bg-indigo-600 transition-colors text-lg shadow-md md:col-span-2">
+                    Visualizza Guida Completa (README)
                 </button>
             </div>
         </div>
@@ -214,7 +207,7 @@
     </div>
 
     <div id="punctuation-tool-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
-        <div class="modal-content bg-white w-full max-w-3xl h-[80vh] rounded-2xl shadow-xl p-8 relative transform scale-95 flex flex-col">
+        <div class="modal-content bg-white w-full max-w-3xl rounded-2xl shadow-xl p-8 relative transform scale-95 flex flex-col">
             <button id="close-punctuation-tool-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -222,21 +215,31 @@
             <p class="text-sm text-slate-600 mb-4">
                 Incolla il testo da elaborare nella casella sottostante. Il tool rimuoverà la punteggiatura non ammessa e formatta date/orari.
             </p>
-            <textarea id="inputText" rows="8" class="w-full p-2 border border-slate-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" placeholder="Inserisci il testo qui..."></textarea>
+            <textarea id="inputText" rows="8" class="w-full p-2 border border-slate-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Inserisci il testo qui..."></textarea>
             <button id="process-text-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors mb-4">Elabora Testo</button>
             <h4 class="text-lg font-semibold mb-2 text-slate-800">Risultato:</h4>
-            <pre id="outputText" class="bg-slate-100 p-3 rounded-md border border-slate-200 overflow-auto text-sm text-slate-700 h-32"></pre>
+            <pre id="outputText" class="bg-slate-100 p-3 rounded-md border border-slate-200 overflow-auto text-sm text-slate-700"></pre>
             <div class="mt-6 text-center">
                 <button id="back-to-home-from-punctuation-tool" class="bg-slate-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Torna alla Home</button>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
-<!-- partial -->
-  <script  src="./script.js"></script>
+    <div id="readme-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white w-full max-w-4xl rounded-2xl shadow-xl p-8 relative transform scale-95 flex flex-col">
+            <button id="close-readme-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold mb-4 text-slate-900">Guida Completa (README)</h3>
+            <div id="readme-content" class="flex-grow overflow-y-auto prose max-w-none">
+                Caricamento del README...
+            </div>
+            <div class="mt-6 text-center">
+                <button id="back-to-home-from-readme" class="bg-slate-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Torna alla Home</button>
+            </div>
+        </div>
+    </div>
 
+    <script src="script.js"></script>
 </body>
 </html>
