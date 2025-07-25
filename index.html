@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>GIADA SUPPORT</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocollazione Semplificata G.I.A.D.A.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-slate-800">
+
+    <div id="app-container" class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <header class="text-center mb-8">
+            <div class="flex justify-center items-center gap-4 mb-4">
+                <img src="https://giada.cultura.gov.it/GIADA_FE/Images/Common/logo_login.jpg" alt="Logo GIADA" class="h-12" onerror="this.style.display='none'">
+                <img src="https://cinema.cultura.gov.it/wp-content/themes/mic-cinema/img/MiC_logo_Negativo.svg" alt="Logo MiC" class="h-12 bg-slate-800 p-2 rounded-md" onerror="this.style.display='none'">
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Protocollazione Semplificata G.I.A.D.A.</h1>
+            <p class="mt-2 text-slate-600">Una guida interattiva per un approccio uniforme alla protocollazione.</p>
+        </header>
+
+        <div id="home-screen" class="bg-white p-6 md:p-8 rounded-2xl shadow-lg flex flex-col items-center justify-center min-h-[400px]">
+            <h2 class="text-2xl font-semibold mb-6 text-slate-800 text-center">Seleziona un'opzione:</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 w-full max-w-2xl">
+                <button id="start-guide-btn" class="bg-blue-600 text-white font-semibold py-4 px-6 rounded-lg hover:bg-blue-700 transition-colors text-lg shadow-md">
+                    Guida alla Protocollazione Passo Passo
+                </button>
+                <button id="open-search-btn" class="bg-green-500 text-white font-semibold py-4 px-6 rounded-lg hover:bg-green-600 transition-colors text-lg shadow-md">
+                    Ricerca Destinatari
+                </button>
+                <button id="open-rules-btn" class="bg-yellow-400 text-yellow-900 font-semibold py-4 px-6 rounded-lg hover:bg-yellow-500 transition-colors text-lg shadow-md">
+                    Consulta Regole Destinatari
+                </button>
+                <button id="open-punctuation-tool-btn" class="bg-purple-600 text-white font-semibold py-4 px-6 rounded-lg hover:bg-purple-700 transition-colors text-lg shadow-md">
+                    Tool Rimozione Punteggiatura
+                </button>
+            </div>
+        </div>
+
+        <div id="stepper-section" class="bg-white p-6 md:p-8 rounded-2xl shadow-lg hidden">
+            <div id="progress-container" class="mb-8">
+                <div class="flex items-center justify-between mb-2">
+                    <p class="text-sm text-slate-600">Passo <span id="current-step-label">1</span> di 14</p>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 7.14%; transition: width 0.5s ease-in-out;"></div>
+                </div>
+            </div>
+
+            <div id="steps-container" class="relative min-h-[500px]">
+                <div id="step-1" class="step-card">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">1. Avvia la Ricerca</h2>
+                    <p class="mb-4 text-slate-700">Dalla pagina principale (Home), clicca sul pulsante "Ricerca".</p>
+                    <img src="https://i.ibb.co/BdCV46N/1-inizio-ricerca.png" alt="Schermata Home con pulsante Ricerca" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-2" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">2. Seleziona "Documenti"</h2>
+                    <p class="mb-4 text-slate-700">Dal menù a tendina che si apre, scegli l'opzione "Documenti".</p>
+                    <img src="https://i.ibb.co/N60xpBK2/2-documenti.png" alt="Menù a tendina con opzione Documenti" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-3" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">3. Filtra per Tipo "Pred."</h2>
+                    <p class="mb-4 text-slate-700">Nella schermata di ricerca, seleziona come "Tipo" solamente l'opzione "Pred.".</p>
+                    <img src="https://i.ibb.co/C5vBSCz2/3-pred.png" alt="Selezione tipo Pred." class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-4" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">4. Imposta l'Intervallo di Date</h2>
+                    <p class="mb-4 text-slate-700">Nel campo "Data Creazione", scegli "Intervallo", seleziona il periodo desiderato e infine clicca su "Cerca" in basso.</p>
+                    <img src="https://i.ibb.co/Kz5ng8G4/4-intervallo-data-e-cerca.png" alt="Selezione intervallo data e Cerca" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-5" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">5. Apri la Pratica</h2>
+                    <p class="mb-4 text-slate-700">Clicca sul testo in grassetto (che corrisponde a ID, data e ora) per aprire la pratica corretta.</p>
+                    <img src="https://i.ibb.co/jvmnkRP7/5-aprire-pratica.png" alt="Apertura pratica" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-6" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">6. Gestisci Lettera di Trasmissione (Se presente)</h2>
+                    <p class="mb-4 text-slate-700">Cerca tra gli allegati la "Lettera di Trasmissione". Se è presente, clicca sul pulsante "Scambia" in basso.</p>
+                    <img src="https://i.ibb.co/DPnk9SRW/6-verifica-in-allegati.png" alt="Lettera di Trasmissione e pulsante Scambia" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-7" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">7. Visualizza Documento (Se Lettera assente)</h2>
+                    <p class="mb-4 text-slate-700">Se la Lettera di Trasmissione non è presente, torna alla scheda "Profilo" e clicca su "Visualizza documento" nella sezione a destra.</p>
+                    <img src="https://i.ibb.co/Y4MVVKTT/7-aprire-documento.png" alt="Visualizza documento" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-8" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">8. Converti in PDF</h2>
+                    <p class="mb-4 text-slate-700">Dopo aver visualizzato il documento, clicca su "Converti in PDF".</p>
+                    <img src="https://i.ibb.co/xPRVK8Q/8-converti-in-pdf.png" alt="Converti in PDF" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-9" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">9. Cerca Fascicoli</h2>
+                    <p class="mb-4 text-slate-700">Torna su "Profilo". In basso a sinistra, nella sezione "Classificazione/Fascicolazione Rapida", clicca sull'icona "Ricerca Fascicoli".</p>
+                    <img src="https://i.ibb.co/zVwQfpBt/9-ricerca-fascicoli.png" alt="Ricerca Fascicoli" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-10" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">10. Fascicola il Documento</h2>
+                    <p class="mb-4 text-slate-700">Nella schermata di ricerca, inserisci "13.16.01" in "Cod. titolario" e "11" in "Num.", poi clicca "Cerca". Seleziona il fascicolo "Applicativo GIADA" (13.16.01/11/25) e clicca su "Fascicola".</p>
+                    <img src="https://i.ibb.co/c4ykPMx/10-fascicolazione.png" alt="Fascicolazione documento" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-11" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">11. Protocolla</h2>
+                    <p class="mb-4 text-slate-700">Tornato alla schermata "Profilo", clicca sul pulsante "Protocolla" in basso.</p>
+                    <img src="https://i.ibb.co/JWM52Vky/11-protocolla.png" alt="Pulsante Protocolla" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+                
+                <div id="step-12" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">12. Avvia Trasmissione</h2>
+                    <p class="mb-4 text-slate-700">Una volta terminata l'operazione di protocollazione, clicca sulla scheda "Trasm.ni".</p>
+                    <img src="https://i.ibb.co/zccyx8D/12-trasmissioni.png" alt="Scheda Trasm.ni" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+                
+                <div id="step-13" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">13. Seleziona Destinatari</h2>
+                    <p class="mb-4 text-slate-700">Cerca e seleziona i destinatari della trasmissione in base al contesto. Una volta scelti, clicca su "Trasmetti".</p>
+                    <img src="https://i.ibb.co/1YsHHhC9/13-destinatari-trasmissione.png" alt="Selezione destinatari" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+
+                <div id="step-14" class="step-card hidden">
+                    <h2 class="text-2xl font-semibold mb-4 text-slate-800">14. Trasmissione Veloce (Opzionale)</h2>
+                    <p class="mb-4 text-slate-700">In alternativa, puoi usare la "Trasmissione Veloce" per cercare i destinatari all'interno di liste di distribuzione predefinite.</p>
+                    <img src="https://i.ibb.co/dshd8wxZ/14-trasmissione-rapida.png" alt="Trasmissione Veloce" class="w-full max-w-lg mx-auto rounded-lg border border-slate-200" onerror="this.src='https://placehold.co/600x400/e2e8f0/475569?text=Immagine+non+disponibile';">
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-200 flex items-center justify-between flex-wrap gap-4">
+                <button id="prev-btn" class="bg-slate-200 text-slate-700 font-semibold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Indietro</button>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="back-to-home-from-stepper" class="bg-slate-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Torna alla Home</button>
+                </div>
+                <button id="next-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Avanti</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="rules-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white w-full max-w-2xl rounded-2xl shadow-xl p-8 relative transform scale-95">
+            <button id="close-rules-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold mb-6 text-slate-900">Nota Bene: Regole Destinatari</h3>
+            <div class="space-y-4 text-slate-700">
+                <p>Per contesti non presenti nel file excel, fare riferimento alle seguenti indicazioni:</p>
+                <ul class="list-disc list-inside space-y-3">
+                    <li><strong>Notai:</strong>
+                        <ul class="list-['-_'] list-inside ml-4 mt-1 space-y-1">
+                            <li>Provincia di SA: <span class="font-semibold">Calvanese</span> (Assegnazione)</li>
+                            <li>Provincia di AV: <span class="font-semibold">Stiscia</span> (Assegnazione) - <span class="font-semibold">Zuppa</span> (Competenza)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Comunicazione e Stagisti:</strong> <span class="font-semibold">Barone</span></li>
+                    <li><strong>Furti:</strong> <span class="font-semibold">Barone</span> (Assegnazione) - <span class="font-semibold">Guida</span> (Assegnazione)</li>
+                    <li><strong>Legali:</strong> <span class="font-semibold">Attanasio</span></li>
+                    <li><strong>Personale:</strong> <span class="font-semibold">Landi</span> (Assegnazione) - <span class="font-semibold">Gramaglia</span> (Assegnazione)</li>
+                    <li><strong>Fondi:</strong> <span class="font-semibold">Zito</span> (Assegnazione)</li>
+                </ul>
+            </div>
+            <div class="mt-6 text-center">
+                <button id="back-to-home-from-rules" class="bg-slate-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Torna alla Home</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="search-recipients-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white w-full max-w-6xl h-[90vh] rounded-2xl shadow-xl p-8 relative transform scale-95 flex flex-col">
+            <button id="close-search-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold mb-4 text-slate-900">Ricerca Destinatari</h3>
+            <div class="text-sm text-slate-600 mb-2">
+                Per utilizzare questa funzione, assicurati di aver pubblicato il tuo foglio Google come CSV.
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 mt-2 mb-2">
+                    <input type="text" id="google-sheet-csv-url" placeholder="Incolla qui il link CSV del tuo Google Sheet" 
+                                   value="https://docs.google.com/spreadsheets/d/e/2PACX-1vTvIu15Ey3mVwVhDi0r2DGc-c0gBtNqZKhF1_YC-bfwdhW4n0rocROdldO0Mk6h4BjgVuNm4Lg7p5X4/pub?gid=1643459295&single=true&output=csv"
+                                   class="w-full sm:w-auto flex-grow p-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="load-sheet-btn" class="bg-blue-600 text-white py-1 px-3 rounded-md hover:bg-blue-700 transition-colors w-full sm:w-auto">Carica Foglio</button>
+                </div>
+                <span id="loading-indicator" class="ml-2 text-slate-500 hidden">Caricamento...</span>
+                <span id="error-message" class="ml-2 text-red-500 hidden"></span>
+            </div>
+            <input type="text" id="recipient-search-input" placeholder="Cerca per nome, contesto, etc." class="w-full p-2 border border-slate-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div id="recipients-results" class="flex-grow overflow-y-auto border border-slate-200 rounded-md p-2">
+                <p class="text-slate-500 text-center py-4">Carica il foglio per iniziare la ricerca.</p>
+            </div>
+            <div class="mt-6 text-center">
+                <button id="back-to-home-from-search" class="bg-slate-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Torna alla Home</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="punctuation-tool-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white w-full max-w-3xl h-[80vh] rounded-2xl shadow-xl p-8 relative transform scale-95 flex flex-col">
+            <button id="close-punctuation-tool-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold mb-4 text-slate-900">Tool Rimozione Punteggiatura</h3>
+            <p class="text-sm text-slate-600 mb-4">
+                Incolla il testo da elaborare nella casella sottostante. Il tool rimuoverà la punteggiatura non ammessa e formatta date/orari.
+            </p>
+            <textarea id="inputText" rows="8" class="w-full p-2 border border-slate-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" placeholder="Inserisci il testo qui..."></textarea>
+            <button id="process-text-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors mb-4">Elabora Testo</button>
+            <h4 class="text-lg font-semibold mb-2 text-slate-800">Risultato:</h4>
+            <pre id="outputText" class="bg-slate-100 p-3 rounded-md border border-slate-200 overflow-auto text-sm text-slate-700 h-32"></pre>
+            <div class="mt-6 text-center">
+                <button id="back-to-home-from-punctuation-tool" class="bg-slate-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">Torna alla Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
