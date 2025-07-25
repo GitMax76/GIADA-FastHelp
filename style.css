@@ -17,8 +17,6 @@ body {
 }
 .modal-content {
     transition: transform 0.3s ease-in-out;
-    /* Rimuovi o sovrascrivi l'altezza fissa definita nell'HTML (es. h-[80vh]) */
-    /* Impostiamo un'altezza massima per evitare che il modale diventi troppo grande */
     max-height: 90vh; /* Il modale non supererà il 90% dell'altezza della viewport */
     overflow-y: auto; /* Aggiunge scroll al modale stesso se il suo contenuto è troppo alto */
     display: flex; /* Manteniamo flex per la disposizione interna */
@@ -31,9 +29,8 @@ body {
     border-radius: 0.5rem;
 }
 
-/* Modifiche per il Tool Rimozione Punteggiatura */
+/* Modifiche per il Tool Rimozione Punteggiatura (rimangono invariate) */
 #punctuation-tool-modal .modal-content {
-    /* Specifico per il modale del tool, per sovrascrivere l'h-[80vh] dell'HTML */
     height: auto; /* Il modale si adatterà all'altezza del contenuto */
     max-height: 90vh; /* Ma non più del 90% della viewport */
     overflow-y: auto; /* Se il contenuto totale supera max-height, il modale stesso scorrerà */
@@ -52,4 +49,56 @@ body {
     flex-grow: 1; /* Permette all'output di occupare lo spazio disponibile */
     overflow-y: hidden; /* Nasconde lo scroll interno se il modale gestisce lo scroll */
     resize: vertical; /* Permette all'utente di ridimensionare verticalmente */
+}
+
+/* Nuove regole per il modale del README */
+#readme-modal .modal-content {
+    height: auto; /* Si adatta al contenuto */
+    max-height: 90vh; /* Massima altezza dello schermo */
+    overflow-y: auto; /* Se il contenuto è troppo, il modale scorre */
+}
+
+/* Stile per il contenuto del README (Markdown) */
+/* TailwindCSS ha un plugin 'typography' (prose) che aiuta a stilizzare il Markdown.
+   Se non vuoi includere il plugin (richiede una configurazione di Tailwind),
+   queste regole base possono aiutare, ma l'aspetto potrebbe variare. */
+#readme-content h1, #readme-content h2, #readme-content h3 {
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #1e293b; /* slate-800 */
+}
+#readme-content h1 { font-size: 2em; }
+#readme-content h2 { font-size: 1.5em; }
+#readme-content h3 { font-size: 1.25em; }
+#readme-content p {
+    margin-bottom: 1em;
+    line-height: 1.5;
+}
+#readme-content ul {
+    list-style-type: disc;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+}
+#readme-content ol {
+    list-style-type: decimal;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+}
+#readme-content strong {
+    font-weight: 600;
+    color: #1e293b;
+}
+#readme-content code {
+    background-color: #e2e8f0; /* slate-200 */
+    padding: 0.2em 0.4em;
+    border-radius: 0.25em;
+    font-family: monospace;
+}
+#readme-content pre {
+    background-color: #f1f5f9; /* slate-100 */
+    padding: 1em;
+    border-radius: 0.5em;
+    overflow-x: auto;
+    font-family: monospace;
 }
